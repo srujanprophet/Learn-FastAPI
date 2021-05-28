@@ -1,0 +1,25 @@
+"""Pydantic example"""
+from datetime import datetime
+from typing import List, Optional
+
+from pydantic import BaseModel
+
+
+class User(BaseModel):
+    """ User Model """
+    id: int
+    name = "Zack Hemsey"
+    signup_ts: Optional[datetime] = None
+    friends: List[int] = []
+
+
+external_data = {
+    "id": 123,
+    "signup_ts": "2017-06-01 12:22",
+    "friends": [1, "2", b"3"],
+}
+user = User(**external_data)
+print(user)
+# > User id=123 name='Zack Hemsey', signup_ts=datetime.datetime(2017, 6, 1, 12, 22) friends=[1, 2, 3]
+print(user.id)
+# > 123
