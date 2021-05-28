@@ -1,4 +1,5 @@
 """ Code for Path Parameters """
+
 from enum import Enum
 
 from fastapi import FastAPI
@@ -10,6 +11,7 @@ app = FastAPI()
 @app.get("/items/{item_id}")
 async def read_item(item_id):
     """ Return item id """
+
     return {"item_id": item_id}
 
 
@@ -17,6 +19,7 @@ async def read_item(item_id):
 @app.get("/items_n/{item_id}")
 async def read_item_number(item_id: int):
     """ Return item id as integer """
+
     return {"item_id": item_id}
 
 
@@ -24,18 +27,21 @@ async def read_item_number(item_id: int):
 @app.get("/users/me")
 async def read_user_me():
     """ Return current user """
+
     return {"user_id": "the current user"}
 
 
 @app.get("/users/{user_id}")
 async def read_user(user_id: str):
     """ Return user by id """
+
     return {"user_id": user_id}
 
 
 # Predefined Values
 class ModelName(str, Enum):
     """ Define Model Names """
+
     ALEXNET = "alexnet"
     RESNET = "resnet"
     LENET = "lenet"
@@ -44,6 +50,7 @@ class ModelName(str, Enum):
 @app.get("/models/{model_name}")
 async def get_model(model_name: ModelName):
     """ Get predefined models """
+
     if model_name == ModelName.ALEXNET:
         return {"model_name": model_name, "message": "Deep Learning FTW!"}
 
@@ -57,4 +64,5 @@ async def get_model(model_name: ModelName):
 @app.get("/files/{file_path:path}")
 async def read_file(file_path: str):
     """ The parameter should match any 'path' """
+
     return {"file_path": file_path}
