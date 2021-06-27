@@ -14,6 +14,20 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+"""The middleware will create a new SQLAlchemy `SessionLocal` for each request, add it to the request and then close it once the request is finished
+"""
+@app.middleware("http")
+async def db_session_middleware(request: Request, call_next):
+    response = Response("Internal server error", status_code=500)
+    try:
+        request.state.db = SessionLocal()
+        response = await call_next(request)
+    finally:
+        request.state.db.close()
+    return response
+
+
+
 """Using the `SessionLocal` class in the `sql_app/databases.py` file to create a
 dependency.
 
